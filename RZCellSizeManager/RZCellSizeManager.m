@@ -60,7 +60,11 @@
             id firstItem = cellConstraint.firstItem == self ? self.contentView : cellConstraint.firstItem;
             id secondItem = cellConstraint.secondItem == self ? self.contentView : cellConstraint.secondItem;
             //There is a case where we can grab the iOS7 UITableViewCellScrollView which will break, this check is for that.
-            if (([[firstItem superview] isEqual:self] && ![firstItem isEqual:self.contentView]) ||
+            // There is a case in iOS8, where we get NSAutoresizingMaskLayoutConstraints, if we have an auto layout cell
+            // that uses a custom view using springs and struts.  This crashes the app when we try to re-add the constraint
+            // to the custom view, because the NSAutoresizingMaskLayoutConstraints first or second item are nil.  So an additional check to see if the first and second items are nil is performed.
+            if (!firstItem || !secondItem ||
+                ([[firstItem superview] isEqual:self] && ![firstItem isEqual:self.contentView]) ||
                 ([[secondItem superview] isEqual:self] && ![secondItem isEqual:self.contentView]))
             {
                 continue;
