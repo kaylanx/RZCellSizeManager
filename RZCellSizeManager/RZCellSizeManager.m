@@ -520,7 +520,7 @@
         {
             [configuration.cell prepareForReuse];
             configuration.configurationBlock(configuration.cell, object);
-            [configuration.cell layoutIfNeeded];
+            [configuration.cell setNeedsLayout];
             UIView* contentView = [configuration.cell contentView];
             height = @([contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + self.cellHeightPadding);
         }
